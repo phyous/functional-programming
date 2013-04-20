@@ -1,0 +1,108 @@
+<div id="course-page-content">
+                                <h2>Functional Sets: Instructions</h2>
+
+<br>
+<p>When you're ready to submit your solution, go to the <a href="https://class.coursera.org/progfun-002/assignment/list">assignments list</a>.
+</p>
+
+<br>
+<p>
+</p><p>In this assignment, you will work with a functional representation of sets based on the mathematical notion of characteristic functions. The goal is to gain practice with higher-order functions.</p>
+
+<p><a href="http://spark-public.s3.amazonaws.com/progfun/assignments/funsets.zip">Download the funsets.zip</a> handout archive file and extract it somewhere on your machine. Write your solutions by completing the stubs in the <code>FunSets.scala</code> file.</p>
+
+<p>Write your own tests! For this assignment, we don’t give you tests but instead the <code>FunSetSuite.scala</code> file contains hints on how to write your own tests for the assignment.</p>
+
+<h2 id="representation">Representation</h2>
+
+<p>We will work with sets of integers.</p>
+
+<p>As an example to motivate our representation, how would you represent the set of all negative integers? You cannot list them all… one way would be so say: if you give me an integer, I can tell you whether it’s in the set or not: for <code>3</code>, I say ‘no’; for <code>-1</code>, I say <code>yes</code>.</p>
+
+<p>Mathematically, we call the function which takes an integer as argument and which returns a boolean indicating whether the given integer belongs to a set, the <em>characteristic</em> function of the set. For example, we can characterize the set of negative integers by the characteristic function <code>(x: Int) =&gt; x &lt; 0</code>.</p>
+
+<p>Therefore, we choose to represent a set by its characterisitc function and define a type alias for this representation:</p>
+
+<pre><code>type Set = Int =&gt; Boolean</code></pre>
+
+<p>Using this representation, we define a function that tests for the presence of a value in a set:</p>
+
+<pre><code>def contains(s: Set, elem: Int): Boolean = s(elem)</code></pre>
+
+<h2 id="21_basic_functions_on_sets">2.1 Basic Functions on Sets</h2>
+
+<p>Let’s start by implementing basic functions on sets.</p>
+
+<ol>
+<li>
+<p>Define a function which creates a singleton set from one integer value: the set represents the set of the one given element. Its signature is as follows:</p>
+
+<pre><code>def singletonSet(elem: Int): Set</code></pre>
+
+<p>Now that we have a way to create singleton sets, we want to define a function that allow us to build bigger sets from smaller ones.</p>
+</li>
+
+<li>
+<p>Define the functions <code>union</code>, <code>intersect</code>, and <code>diff</code>, which takes two sets, and return, respectively, their union, intersection and differences. <code>diff(s, t)</code> returns a set which contains all the elements of the set <code>s</code> that are not in the set <code>t</code>. These functions have the following signatures:</p>
+
+<pre><code>def union(s: Set, t: Set): Set
+def intersect(s: Set, t: Set): Set
+def diff(s: Set, t: Set): Set</code></pre>
+</li>
+
+<li>
+<p>Define the function <code>filter</code> which selects only the elements of a set that are accepted by a given predicate <code>p</code>. The filtered elements are returned as a new set. The signature of <code>filter</code> is as follows:</p>
+
+<pre><code>def filter(s: Set, p: Int =&gt; Boolean): Set</code></pre>
+</li>
+</ol>
+
+<h2 id="22_queries_and_transformations_on_sets">2.2 Queries and Transformations on Sets</h2>
+
+<p>In this part, we are interested in functions used to make requests on elements of a set. The first function tests whether a given predicate is true for all elements of the set. This <code>forall</code> function has the following signature:</p>
+
+<pre><code>def forall(s: Set, p: Int =&gt; Boolean): Boolean</code></pre>
+
+<p>Note that there is no direct way to find which elements are in a set. <code>contains</code> only allows to know whether a given element is included. Thus, if we wish to do something to all elements of a set, then we have to iterate over all integers, testing each time whether it is included in the set, and if so, to do something with it. Here, we consider that an integer <code>x</code> has the property <code>-1000 &lt;= x &lt;= 1000</code> in order to limit the search space.</p>
+
+<ol>
+<li>
+<p>Implement <code>forall</code> using linear recursion. For this, use a helper function nested in <code>forall</code>. Its structure is as follows (replace the <code>???</code>):</p>
+
+<pre><code>def forall(s: Set, p: Int =&gt; Boolean): Boolean = {
+ def iter(a: Int): Boolean = {
+   if (???) ???
+   else if (???) ???
+   else iter(???)
+ }
+ iter(???)</code></pre>
+
+<p>}</p>
+</li>
+
+<li>
+<p>Using <code>forall</code>, implement a function <code>exists</code> which tests whether a set contains at least one element for which the given predicate is true. Note that the functions <code>forall</code> and <code>exists</code> behave like the universal and existential quantifiers of first-order logic.</p>
+
+<pre><code>def exists(s: Set, p: Int =&gt; Boolean): Boolean</code></pre>
+</li>
+
+<li>
+<p>Finally, write a function <code>map</code> which transforms a given set into another one by applying to each of its elements the given function. <code>map</code> has the following signature:</p>
+
+<pre><code>def map(s: Set, f: Int =&gt; Int): Set</code></pre>
+</li>
+</ol>
+
+<h2 id="extra_hints">Extra Hints</h2>
+
+<ul>
+<li>Be attentive in the video lectures on how to write anonymous functions in Scala.</li>
+
+<li>Sets are represented as functions. Think about what it <em>means</em> for an element to belong to a set, in terms of function evaluation. For example, how do you represent a set that contains all numbers between 1 and 100?</li>
+
+<li>Most of the solutions for this assignment can be written as one-liners. If you have more, you probably need to rethink your solution. In other words, this assignment needs more thinking (whiteboard, pen and paper) than coding ;-).</li>
+
+<li>If you are having some trouble with terminology, have a look at the <a href="http://docs.scala-lang.org/glossary/">glossary</a>.</li>
+</ul><p></p>
+
+            </div>
