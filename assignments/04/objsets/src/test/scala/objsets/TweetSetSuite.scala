@@ -4,9 +4,10 @@ import org.scalatest.FunSuite
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import org.scalatest.matchers.ShouldMatchers
 
 @RunWith(classOf[JUnitRunner])
-class TweetSetSuite extends FunSuite {
+class TweetSetSuite extends FunSuite with ShouldMatchers {
   trait TestSets {
     val set1 = new Empty
     val set2 = set1.incl(new Tweet("a", "a body", 20))
@@ -38,6 +39,12 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
+  test("filter: gt 7 on set5") {
+    new TestSets {
+      assert(size(set5.filter(tw => tw.retweets > 7)) === 3)
+    }
+  }
+
   test("filter: 20 on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.retweets == 20)) === 2)
@@ -62,11 +69,28 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
+  test("mostRetweeted empty set") {
+    new TestSets {
+      evaluating { set1.mostRetweeted } should produce [java.util.NoSuchElementException]
+    }
+  }
+
   test("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
       assert(trends.head.user == "a" || trends.head.user == "b")
+      assert(trends.tail.tail.head.user == "d")
     }
+  }
+
+  test("GoogleVsApple") {
+    var trending = GoogleVsApple.trending
+    var max = Integer.MAX_VALUE
+    do {
+      assert(trending.head.retweets <= max)
+      max = trending.head.retweets
+      trending = trending.tail
+    } while(trending.tail != Nil)
   }
 }
